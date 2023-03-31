@@ -12,17 +12,17 @@ Graph<D, K>::Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges) { //
 //    this->data = data;
 //    this->adjs = edges;
 
-    cout << "addinf vert start " << keys.size() << endl;
+    //cout << "addinf vert start " << keys.size() << endl;
     for (int i = 0; i < keys.size(); i++) {
-        cout << "addinf vert " << keys[i] << endl;
+        //cout << "addinf vert " << keys[i] << endl;
         vertexes.push_back(Vertex(keys[i], data[i], edges[i]));
     }
 }
 
 template<class D, class K>
 Vertex<D,K> *Graph<D, K>::get(K key) {
-    for (Vertex<D,K> vertex : vertexes) {
-        cout <<"reot " << vertex.key << endl;
+    for (int i = 0; i < vertexes.size(); i++) {
+        Vertex<D,K> vertex = vertexes[i];
         if (vertex.key == key) {
             cout <<"ret " << vertex.key << endl;
             return &vertex;

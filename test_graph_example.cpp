@@ -29,7 +29,7 @@ Graph<string, string>* generate_graph(string fname){
             data.push_back(key + " data");
             delim = adj.find(",");
             vector<string> adj_lst = {};
-            while(delim != string::npos){
+            while(delim != 4294967295){ // string::npos is giving me signed 64 bit max int?? the fuck?
                 adj_lst.push_back(adj.substr(0, delim));
                 adj = adj.substr(delim+1);
                 delim = adj.find(",");
@@ -147,7 +147,9 @@ void test_bfs_tree(Graph<string,string>* G) {
 int main() {
 
     Graph<string,string>* G = generate_graph("graph_description.txt");
+    cout << "Get" << endl;
     test_get(G);
+    cout << "Reachable" << endl;
     test_reachable(G);
     test_bfs(G);
     test_print_path(G);
