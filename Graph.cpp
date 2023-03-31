@@ -13,7 +13,7 @@ Graph<D, K>::Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges) { //
     this->adjs = edges;
 
     for (int i = 0; i < keys.size(); i++) {
-        vertexes.push_back(new Vertex(keys[i], data[i], edges[i]));
+        vertexes.push_back(Vertex(keys[i], data[i], edges[i]));
     }
 }
 
