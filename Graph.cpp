@@ -1,15 +1,24 @@
-//
-// Created by fired on 3/30/2023.
-//
-
 #include "Graph.h"
-template<class D, class K>
-Graph<D,K>::Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges) {
 
+template<class D, class K>
+Graph<D, K>::Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges) { // List in List for the adjs/edges
+    // Check PDF for new version
+    /*
+     * vector<string> keys ={"R", "V", "S", "T", "U", "Y", "W", "X"};
+     * vector<int> data ={1, 2, 3, 5, 4, 6, 7, 8};
+     * vector<vector<string>> edges ={{"V"},{"S"},{"R"},{"S","U","W"},{"Y"},{"W"},{"X"},{"U"}}
+     */
+    this->keys = keys;
+    this->data = data;
+    this->adjs = edges;
+
+    for (int i = 0; i < keys.size(); i++) {
+        vertexes.push_back(new Vertex(keys[i], data[i], edges[i]));
+    }
 }
 
 template<class D, class K>
-D *Graph<D, K>::get(K key) {
+Vertex<D,K> *Graph<D, K>::get(K key) {
     return nullptr;
 }
 
