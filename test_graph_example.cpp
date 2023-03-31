@@ -44,6 +44,7 @@ Graph<string, string>* generate_graph(string fname){
 
 void test_get(Graph<string,string>* G) {
     try {
+        cout << G->get("S") << " yeet" << endl;
         if(G->get("S")==nullptr || G->get("S")->data != "S data") {
             cout << "Incorrect result getting vertex \"s\"" << endl; 
         }

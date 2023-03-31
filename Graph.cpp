@@ -8,17 +8,26 @@ Graph<D, K>::Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges) { //
      * vector<int> data ={1, 2, 3, 5, 4, 6, 7, 8};
      * vector<vector<string>> edges ={{"V"},{"S"},{"R"},{"S","U","W"},{"Y"},{"W"},{"X"},{"U"}}
      */
-    this->keys = keys;
-    this->data = data;
-    this->adjs = edges;
+//    this->keys = keys;
+//    this->data = data;
+//    this->adjs = edges;
 
+    cout << "addinf vert start " << keys.size() << endl;
     for (int i = 0; i < keys.size(); i++) {
+        cout << "addinf vert " << keys[i] << endl;
         vertexes.push_back(Vertex(keys[i], data[i], edges[i]));
     }
 }
 
 template<class D, class K>
 Vertex<D,K> *Graph<D, K>::get(K key) {
+    for (Vertex<D,K> vertex : vertexes) {
+        cout <<"reot " << vertex.key << endl;
+        if (vertex.key == key) {
+            cout <<"ret " << vertex.key << endl;
+            return &vertex;
+        }
+    }
     return nullptr;
 }
 

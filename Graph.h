@@ -32,9 +32,9 @@ template<class D, class K> // Data = Vertex Data, K = Vertex Key
 class Graph {
 public:
 
-    vector<K> keys;
-    vector<D> data;
-    vector<vector<K>> adjs;
+//    vector<K> keys;
+//    vector<D> data;
+//    vector<vector<K>> adjs;
     vector<Vertex<D, K>> vertexes = {};
 
     Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges);
