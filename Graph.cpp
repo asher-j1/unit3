@@ -82,17 +82,16 @@ void Graph<D, K>::bfs_tree(K start) {
     for (int i = 0; i <= maxDistance; i++) {
         for (Vertex<D, K> vertex: vertexes) {
             if (vertex.distance == i) {
-                ss << vertex.key;
-                if (vertexes.back().key != vertex.key) {
-                    ss << " ";
-                }
+                ss << vertex.key << " ";
             }
         }
         if (i < maxDistance) {
+            ss.seekp(-1, ss.cur);
             ss << "\n";
         }
     }
     string str = ss.str();
-    cout << ss.str();
+    str.erase(str.length() - 1, 1);
+    cout << str;
 }
 

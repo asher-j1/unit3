@@ -157,7 +157,9 @@ int main() {
     test_bfs(G);
     cout << "Print Path" << endl;
     test_print_path(G);
+    cout << "Edge class" << endl;
     test_edge_class(G);
+    cout << "BFS Tree" << endl;
     test_bfs_tree(G);
 
     cout << "Testing completed" << endl;
