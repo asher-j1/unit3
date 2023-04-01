@@ -1,7 +1,3 @@
-//
-// Created by fired on 3/30/2023.
-//
-
 #ifndef UNIT3_GRAPH_H
 #define UNIT3_GRAPH_H
 
@@ -10,12 +6,18 @@
 
 using namespace std;
 
+enum Color {
+    WHITE, BLACK, GRAY
+};
+
 template<class D, class K>
 class Vertex {
 public:
     K key;
     D data;
-    int distance;
+    int distance = 0;
+    K *predecessor = nullptr;
+    Color color = WHITE;
     vector<K> adjs;
 
     Vertex(K key, D data, vector<K> edges);
@@ -31,17 +33,13 @@ Vertex<D, K>::Vertex(K key, D data, vector<K> edges) {
 template<class D, class K> // Data = Vertex Data, K = Vertex Key
 class Graph {
 public:
-
-//    vector<K> keys;
-//    vector<D> data;
-//    vector<vector<K>> adjs;
     vector<Vertex<D, K>> vertexes = {};
 
     Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges);
 
     Vertex<D, K> *get(K key);
 
-    bool reachable(D data, K key);
+    bool reachable(K start, K end);
 
     void bfs(K s);
 
