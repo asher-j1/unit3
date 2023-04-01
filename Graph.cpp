@@ -25,10 +25,32 @@ Vertex<D, K> *Graph<D, K>::get(K key) {
     return nullptr;
 }
 
+//template<class D, class K>
+//bool Graph<D, K>::reachable(K start, K end) {
+//    bool result = false;
+//    Vertex<D,K> startVertex = *get(start);
+//    for (K key : startVertex.adjs) {
+//        if (key == end) {
+//            return true;
+//        }
+//        return reachable(key, end);
+//    }
+//    //return result;
+//}
+
 template<class D, class K>
 bool Graph<D, K>::reachable(K start, K end) {
-
-    return false;
+//    Vertex<D,K> startVertex = *get(start);
+//    for (K key : startVertex.adjs) {
+//        if (key == end) {
+//            return true;
+//        }
+//    }
+//    for (K key : startVertex.adjs) {
+//        if (reachable(key, end)) {
+//            return true;
+//        }
+//    }
 }
 
 template<class D, class K>
@@ -61,13 +83,24 @@ void Graph<D, K>::bfs(K s) {
 }
 
 template<class D, class K>
-string Graph<D, K>::print_path(K start, K end) {
-    return std::string();
+void Graph<D, K>::print_path(K start, K end) { // Dijkstra? 24.3 658
+
+    cout << "NYI";
 }
 
 template<class D, class K>
 string Graph<D, K>::edge_class(K u, K v) {
-    return std::string();
+
+    // Page 609 in book, maybe impl. BFS for easier edges?
+    Vertex<D,K> vertex = *get(v);
+    if (vertex.color == WHITE) {
+        return "tree edge";
+    } else if (vertex.color == GRAY) {
+        return "back edge";
+    } else {
+        return "??";
+    }
+    return "NYI";
 }
 
 template<class D, class K>

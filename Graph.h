@@ -43,7 +43,7 @@ public:
 
     void bfs(K s);
 
-    string print_path(K start, K end);
+    void print_path(K start, K end);
 
     string edge_class(K u, K v);
 
@@ -51,4 +51,4 @@ public:
 };
 
 
-#endif //UNIT3_GRAPH_H
+#endif
