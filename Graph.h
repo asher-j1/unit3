@@ -43,7 +43,7 @@ public:
 
     void bfs(K s);
 
-    void print_path(K start, K end);
+    string print_path(K start, K end);
 
     string edge_class(K u, K v);
 

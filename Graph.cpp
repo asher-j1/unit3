@@ -56,13 +56,13 @@ void Graph<D, K>::bfs(K s) {
                 q.push(*vItem);
             }
         }
-        u.color=BLACK;
+        u.color = BLACK;
     }
 }
 
 template<class D, class K>
-void Graph<D, K>::print_path(K start, K end) {
-
+string Graph<D, K>::print_path(K start, K end) {
+    return std::string();
 }
 
 template<class D, class K>
@@ -72,6 +72,27 @@ string Graph<D, K>::edge_class(K u, K v) {
 
 template<class D, class K>
 void Graph<D, K>::bfs_tree(K start) {
-
+    int maxDistance = 0;
+    for (Vertex<D, K> vertex: vertexes) {
+        if (maxDistance < vertex.distance) {
+            maxDistance = vertex.distance; // Get max distance
+        }
+    }
+    stringstream ss;
+    for (int i = 0; i <= maxDistance; i++) {
+        for (Vertex<D, K> vertex: vertexes) {
+            if (vertex.distance == i) {
+                ss << vertex.key;
+                if (vertexes.back().key != vertex.key) {
+                    ss << " ";
+                }
+            }
+        }
+        if (i < maxDistance) {
+            ss << "\n";
+        }
+    }
+    string str = ss.str();
+    cout << ss.str();
 }
 
