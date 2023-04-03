@@ -40,6 +40,14 @@ Vertex<D, K> *Graph<D, K>::get(K key) {
 
 template<class D, class K>
 bool Graph<D, K>::reachable(K start, K end) {
+
+    /**
+     * init source
+     * for each vertex in vertexes
+     *  * vertex.distance = inf
+     *  * vertex.pred = null
+     * source.distance = 0;
+     */
 //    Vertex<D,K> startVertex = *get(start);
 //    for (K key : startVertex.adjs) {
 //        if (key == end) {
