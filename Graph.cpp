@@ -2,7 +2,7 @@
 #include "Graph.h"
 
 template<class D, class K>
-Graph<D, K>::Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges) { // List in List for the adjs/edges
+Graph<D, K>::Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges) {
     // Check PDF for new version
     /*
      * vector<string> keys ={"R", "V", "S", "T", "U", "Y", "W", "X"}; // 3
