@@ -30,7 +30,6 @@ Graph<string, string> *generate_graph(string fname) {
             delim = adj.find(",");
             vector<string> adj_lst = {};
             while (delim < adj.length()) {
-                cout << delim << endl;
                 adj_lst.push_back(adj.substr(0, delim));
                 adj = adj.substr(delim + 1);
                 delim = adj.find(",");
@@ -149,6 +148,7 @@ void test_bfs_tree(Graph<string, string> *G) {
 
 int main() {
 
+    cout << "Read File" << endl;
     Graph<string, string> *G = generate_graph("graph_description.txt");
     cout << "Get" << endl;
     test_get(G);

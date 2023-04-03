@@ -10,7 +10,7 @@ Graph<D, K>::Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges) { //
      * vector<vector<string>> edges ={{"V"},{"S"},{"R"},{"S","U","W"},{"Y"},{"W"},{"X"},{"U"}} // suw
      */
     for (int i = 0; i < keys.size(); i++) {
-        vertexes.push_back(Vertex(keys[i], data[i], edges[i]));
+        vertexes.push_back(Vertex<D,K>(keys[i], data[i], edges[i]));
     }
 }
 
