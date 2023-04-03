@@ -2,3 +2,7 @@
 /cmake-build-debug/
 /.idea/unit3.iml
 /.idea/vcs.xml
+
+test
+test_graph_example.o
+/.idea/.name
