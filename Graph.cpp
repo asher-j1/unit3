@@ -69,6 +69,9 @@ void Graph<D, K>::bfs(K s) {
         vertex.predecessor = nullptr;
     }
     Vertex<D, K> *startVertex = get(s);
+    if (startVertex == nullptr) {
+        return;
+    }
     startVertex->color = GRAY;
     startVertex->distance = 0;
     startVertex->predecessor = nullptr;
