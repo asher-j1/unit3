@@ -111,7 +111,7 @@ string Graph<D, K>::edge_class(K u, K v) {
     } else {
         return "??";
     }
-    return "NYI";
+    return "NYI"; // TODO This isn't actually implemented yet
 }
 
 template<class D, class K>

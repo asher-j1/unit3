@@ -2,6 +2,7 @@
 /cmake-build-debug/
 /.idea/unit3.iml
 /.idea/vcs.xml
+/.idea/*
 
 test
 test_graph_example.o
