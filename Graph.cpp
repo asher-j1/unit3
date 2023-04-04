@@ -3,7 +3,6 @@
 
 template<class D, class K>
 Graph<D, K>::Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges) {
-    // Check PDF for new version
     /*
      * vector<string> keys ={"R", "V", "S", "T", "U", "Y", "W", "X"}; // 3
      * vector<int> data ={1, 2, 3, 5, 4, 6, 7, 8};
@@ -102,7 +101,7 @@ void Graph<D, K>::print_path(K start, K end) { // Dijkstra? 24.3 658
 template<class D, class K>
 string Graph<D, K>::edge_class(K u, K v) {
 
-    // Page 609 in book, maybe impl. BFS for easier edges?
+    // Page 609 in book, maybe impl. DFS (or was it BFS) for easier edges?
     Vertex<D,K> vertex = *get(v);
     if (vertex.color == WHITE) {
         return "tree edge";
