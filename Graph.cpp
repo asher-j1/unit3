@@ -37,28 +37,24 @@ Vertex<D, K> *Graph<D, K>::get(K key) {
 //    //return result;
 //}
 
+
 template<class D, class K>
 bool Graph<D, K>::reachable(K start, K end) {
-
-    /**
-     * init source
-     * for each vertex in vertexes
-     *  * vertex.distance = inf
-     *  * vertex.pred = null
-     * source.distance = 0;
-     */
-//    Vertex<D,K> startVertex = *get(start);
-//    for (K key : startVertex.adjs) {
-//        if (key == end) {
-//            return true;
-//        }
-//    }
-//    for (K key : startVertex.adjs) {
-//        if (reachable(key, end)) {
-//            return true;
-//        }
-//    }
+    bool result = false;
+    Vertex<D,K> startVertex = *get(start);
+    for (K key : startVertex.adjs) {
+        if (key == end) {
+            return true;
+        } else {
+            result = reachable(key, end);
+            if (result == true) {
+                return true;
+            }
+        }
+    }
+    return result;
 }
+
 
 template<class D, class K>
 void Graph<D, K>::bfs(K s) {
@@ -93,9 +89,14 @@ void Graph<D, K>::bfs(K s) {
 }
 
 template<class D, class K>
-void Graph<D, K>::print_path(K start, K end) { // Dijkstra? 24.3 658
-
-    cout << "NYI";
+void Graph<D, K>::print_path(K u, K v) { // Dijkstra? 24.3 658
+    if v==u:
+        print("no path exists")
+    elif v.predecessor == NULL:
+        print("No path exists")
+    else:
+        print_path(u, v)
+        print(v)
 }
 
 template<class D, class K>
