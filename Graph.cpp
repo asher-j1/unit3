@@ -3,15 +3,28 @@
 
 template<class D, class K>
 Graph<D, K>::Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges) {
-    /*
-     * vector<string> keys ={"R", "V", "S", "T", "U", "Y", "W", "X"}; // 3
-     * vector<int> data ={1, 2, 3, 5, 4, 6, 7, 8};
-     * vector<vector<string>> edges ={{"V"},{"S"},{"R"},{"S","U","W"},{"Y"},{"W"},{"X"},{"U"}} // suw
-     */
+    
+     vector<string> keys ={"R", "V", "S", "T", "U", "Y", "W", "X"}; // 3
+     vector<int> data ={1, 2, 3, 5, 4, 6, 7, 8};
+     vector<vector<string>> edges ={{"V"},{"S"},{"R"},{"S","U","W"},{"Y"},{"W"},{"X"},{"U"}} // suw
+     
     for (int i = 0; i < keys.size(); i++) {
-        vertexes.push_back(Vertex<D,K>(keys[i], data[i], edges[i]));
+        vertexes.push_back(Vertex<D,K>(keys[i], data[i]));
+    }
+
+    // Add edges
+    for (int i = 0; i < keys.size(); i++) {
+        Vertex<D, K>* uVertex = get(keys[i]);
+        vector<K> adjKeys = edges[i];
+        for (K adjKey : adjKeys) {
+            Vertex<D, K>* vVertex = get(adjKey);
+            uVertex->adjs.push_back(adjKey);
+        }
     }
 }
+
+
+
 
 template<class D, class K>
 Vertex<D, K> *Graph<D, K>::get(K key) {
