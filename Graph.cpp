@@ -24,19 +24,6 @@ Vertex<D, K> *Graph<D, K>::get(K key) {
     return nullptr;
 }
 
-//template<class D, class K>
-//bool Graph<D, K>::reachable(K start, K end) {
-//    bool result = false;
-//    Vertex<D,K> startVertex = *get(start);
-//    for (K key : startVertex.adjs) {
-//        if (key == end) {
-//            return true;
-//        }
-//        return reachable(key, end);
-//    }
-//    //return result;
-//}
-
 
 template<class D, class K>
 bool Graph<D, K>::reachable(K start, K end) {
@@ -101,17 +88,26 @@ void Graph<D, K>::print_path(K u, K v) { // Dijkstra? 24.3 658
 
 template<class D, class K>
 string Graph<D, K>::edge_class(K u, K v) {
+    Vertex<D, K>* uVertex = get(u);
+    Vertex<D, K>* vVertex = get(v);
 
-    // Page 609 in book, maybe impl. DFS (or was it BFS) for easier edges?
-    Vertex<D,K> vertex = *get(v);
-    if (vertex.color == WHITE) {
-        return "tree edge";
-    } else if (vertex.color == GRAY) {
-        return "back edge";
+    if (uVertex->color == WHITE) {
+        // u is an unexplored vertex
+        return "tree";
+    } else if (vVertex->color == GRAY) {
+        // v is a descendant of u in the BFS tree
+        return "cross";
     } else {
-        return "??";
+        // v is either an ancestor or a non-descendant of u
+        // (assuming the graph is undirected)
+        if (uVertex->distance < vVertex->distance) {
+            // v is an ancestor of u
+            return "forward";
+        } else {
+            // v is a non-descendant of u
+            return "back";
+        }
     }
-    return "NYI"; // TODO This isn't actually implemented yet
 }
 
 template<class D, class K>
