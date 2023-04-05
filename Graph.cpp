@@ -1,4 +1,5 @@
 #include <queue>
+#include <algorithm>
 #include "Graph.h"
 
 template<class D, class K>
@@ -60,7 +61,6 @@ void Graph<D, K>::bfs(K s) {
         if (vertex.key != s) {
             vertex.color = WHITE;
             vertex.distance = 2000000; // Functionally INF.
-            //setPredecessor(vertex.key, nullptr);
         }
     }
     Vertex<D, K> *startVertex = get(s);
@@ -69,6 +69,7 @@ void Graph<D, K>::bfs(K s) {
     }
     startVertex->color = GRAY;
     startVertex->distance = 0;
+    setPredecessor(startVertex->key, startVertex->key);
     std::deque<Vertex<D, K>> q;
     q.push_back(*startVertex);
     while (!q.empty()) {
@@ -80,45 +81,33 @@ void Graph<D, K>::bfs(K s) {
                 vItem->color = GRAY;
                 vItem->distance = u.distance + 1;
                 setPredecessor(vItem->key, u.key);
-                //vItem->predecessor = &(u.key);
-                cout << "Key: " << vItem->key << " Pred Key: " << get((getPredecessor(vItem->key)))->key << endl;
                 q.push_back(*vItem);
             }
         }
         u.color = BLACK;
     }
-//    cout << "After" << endl;
-//    for (Vertex<D, K> vertex: vertexes) {
-//        //if (&getPredecessor(vertex.key) != nullptr) {
-//            cout << "Key: " << vertex.key << " Pred Key: " << getPredecessor(vertex.key) << endl;
-//        //}
-//    }
 }
 
 template<class D, class K>
-void Graph<D, K>::print_path(K u, K v) { // Dijkstra? 24.3 658
-    // Graph? Dijkstra.
+void Graph<D, K>::print_path(K u, K v) {
+    if (get(u) == nullptr || get(v) == nullptr) {
+        cout << "No Path";
+        return;
+    }
 
-
-//    if (get(u) == nullptr || get(v) == nullptr) {
-//        cout << "No Path";
-//        return;
-//    }
-//
-//    Vertex<D,K> *pred = get(v);
-//    string res = "";
-//    while (get(*(pred->predecessor)) != nullptr) {
-//        res.append(pred->key);
-//        res.append(" <- ");
-//        string str = "Key: ";
-//        str.append(pred->key) ;
-//        str.append(" Pred Key: ");
-//        str.append(get(*(pred->predecessor))->key);
-//        pred = get(*(pred->predecessor));
-//    }
-//    cout << res << endl;
-
-
+    Vertex<D,K> *pred = get(v);
+    string res;
+    while (get(getPredecessor(pred->key)) != nullptr) {
+        if (u == pred->key) {
+            res.append(pred->key);
+            break;
+        }
+        res.append(pred->key);
+        res.append(" >- "); // Yes this is on purpose, do not change.
+        pred = get(getPredecessor(pred->key));
+    }
+    reverse(res.begin(), res.end());
+    cout << res;
 }
 
 template<class D, class K>
