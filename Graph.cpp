@@ -5,10 +5,6 @@
 template<class D, class K>
 Graph<D, K>::Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges) {
 
-//     vector<string> keys ={"R", "V", "S", "T", "U", "Y", "W", "X"}; // 3
-//     vector<int> data ={1, 2, 3, 5, 4, 6, 7, 8};
-//     vector<vector<string>> edges ={{"V"},{"S"},{"R"},{"S","U","W"},{"Y"},{"W"},{"X"},{"U"}} // suw
-
     for (int i = 0; i < keys.size(); i++) {
         vertexes.push_back(Vertex<D, K>(keys[i], data[i], edges[i]));
     }
@@ -38,20 +34,18 @@ Vertex<D, K> *Graph<D, K>::get(K key) {
 
 
 template<class D, class K>
-bool Graph<D, K>::reachable(K start, K end) {
-    bool result = false;
-//    Vertex<D,K> startVertex = *get(start);
-//    for (K key : startVertex.adjs) {
-//        if (key == end) {
-//            return true;
-//        } else {
-//            result = reachable(key, end);
-//            if (result == true) {
-//                return true;
-//            }
-//        }
-//    }
-    return result;
+bool Graph<D, K>::reachable(K start, K end) { // Literally just a skimmed down version of print_path funny enough
+    if (get(start) == nullptr || get(end) == nullptr) {
+        return false;
+    }
+    Vertex<D,K> *pred = get(end);
+    while (get(getPredecessor(pred->key)) != nullptr) {
+        if (start == pred->key) {
+            break;
+        }
+        pred = get(getPredecessor(pred->key));
+    }
+    return true;
 }
 
 
