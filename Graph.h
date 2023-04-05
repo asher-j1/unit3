@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <sstream>
+#include <map>
 
 using namespace std;
 
@@ -16,7 +17,7 @@ public:
     K key;
     D data;
     int distance = 0;
-    K *predecessor = nullptr;
+    //K *predecessor = nullptr;
     Color color = WHITE;
     vector<K> adjs;
 
@@ -34,6 +35,15 @@ template<class D, class K> // Data = Vertex Data, K = Vertex Key
 class Graph {
 public:
     vector<Vertex<D, K>> vertexes = {};
+    map<K,K> preds;
+
+    void setPredecessor(K k, K pred) {
+        preds[k] = pred;
+    }
+
+    K getPredecessor(K k) {
+        return preds[k];
+    }
 
     Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges);
 
