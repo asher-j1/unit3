@@ -8,7 +8,7 @@
 using namespace std;
 
 enum Color {
-    WHITE, BLACK, GRAY
+    WHITE = 0, GRAY = 1, BLACK = 2
 };
 
 template<class D, class K>
@@ -17,6 +17,7 @@ public:
     K key;
     D data;
     int distance = 0;
+    int discovery, finish = 0;
     //K *predecessor = nullptr;
     Color color = WHITE;
     vector<K> adjs;
@@ -35,7 +36,8 @@ template<class D, class K> // Data = Vertex Data, K = Vertex Key
 class Graph {
 public:
     vector<Vertex<D, K>> vertexes = {};
-    map<K,K> preds;
+    map<K, K> preds;
+    int dfsTime;
 
     void setPredecessor(K k, K pred) {
         preds[k] = pred;
@@ -58,6 +60,8 @@ public:
     string edge_class(K u, K v);
 
     void bfs_tree(K start);
+
+    void dfs_visit(Vertex<D, K> vert, K u, K v);
 };
 
 
