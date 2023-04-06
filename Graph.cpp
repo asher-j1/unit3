@@ -1,6 +1,6 @@
 #include <queue>
 #include <algorithm>
-#include "Graph.h"
+#include "graph.h"
 
 template<class D, class K>
 Graph<D, K>::Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges) {
