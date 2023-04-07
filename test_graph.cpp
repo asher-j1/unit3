@@ -251,36 +251,6 @@ void test_edge_class(Graph<string, string> *G) {
 
 void test_bfs_tree(Graph<string, string> *G) {
     try {
-        //test cases
-        Graph<string, int> g;
-        g.addVertex(1, "A");
-        g.addVertex(2, "B");
-        g.addVertex(3, "C");
-        g.addVertex(4, "D");
-        g.addEdge(1, 2);
-        g.addEdge(1, 3);
-        g.addEdge(2, 4);
-        g.addEdge(3, 4);
-        g.bfs_tree(1);
-        
-       Graph<string, int> g;
-g.addVertex(1, "A");
-g.addVertex(2, "B");
-g.addVertex(3, "C");
-g.addVertex(4, "D");
-g.bfs_tree(1);
-        
-Graph<string, int> g;
-g.addVertex(1, "A");
-g.addVertex(2, "B");
-g.addVertex(3, "C");
-g.addVertex(4, "D");
-g.addEdge(1, 2);
-g.addEdge(2, 3);
-g.addEdge(3, 1);
-g.addEdge(4, 2);
-g.bfs_tree(1);
-
         stringstream buffer;
         streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
         G->bfs_tree("T");
