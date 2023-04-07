@@ -1,12 +1,25 @@
 #include <queue>
 #include <algorithm>
+#include <unordered_map>
+#include <sstream>
 #include "graph.h"
 
 template<class D, class K>
 Graph<D, K>::Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges) {
+
     for (int i = 0; i < keys.size(); i++) {
         vertexes.push_back(Vertex<D, K>(keys[i], data[i], edges[i]));
     }
+
+//    // Add edges
+//    for (int i = 0; i < keys.size(); i++) {
+//        Vertex<D, K>* uVertex = get(keys[i]);
+//        vector<K> adjKeys = edges[i];
+//        for (K adjKey : adjKeys) {
+//            Vertex<D, K>* vVertex = get(adjKey);
+//            uVertex->adjs.push_back(adjKey);
+//        }
+//    }
 }
 
 
@@ -73,24 +86,65 @@ void Graph<D, K>::bfs(K s) {
 
 template<class D, class K>
 void Graph<D, K>::print_path(K u, K v) {
-    if (get(u) == nullptr || get(v) == nullptr) {
-        cout << "No Path";
-        return;
+    
+    unordered_map<K, int> dist;
+    unordered_map<K, K> parent;
+
+    for (auto &vtx : vertexes)
+    {
+        dist[vtx.key] = INT_MAX;
+        parent[vtx.key] = "";
     }
 
-    Vertex<D, K> *pred = get(v);
-    string res;
-    while (get(getPredecessor(pred->key)) != nullptr) {
-        if (u == pred->key) {
-            res.append(pred->key);
+    dist[u] = 0;
+
+    // create queue for BFS algorithm
+    queue<K> q;
+    q.push(u);
+
+    while (!q.empty())
+    {
+        K curr = q.front();
+        q.pop();
+
+        // stop if we reach the destination vertex
+        if (curr == v)
+        {
             break;
         }
-        res.append(pred->key);
-        res.append(" >- "); // Yes this is on purpose, do not change.
-        pred = get(getPredecessor(pred->key));
+
+        // traverse edges incident to current vertex
+        for (K adj : get(curr)->adjs)
+        {
+            if (dist[adj] == INT_MAX)
+            {
+                dist[adj] = dist[curr] + 1;
+                parent[adj] = curr;
+                q.push(adj);
+            }
+        }
     }
-    reverse(res.begin(), res.end());
-    cout << res;
+
+    vector<K> path;
+    K curr = v;
+    while (curr != u)
+    {
+        path.push_back(curr);
+        curr = parent[curr];
+    }
+    path.push_back(u);
+
+    stringstream ss;
+    for (int i = path.size() - 1; i >= 0; i--)
+    {
+        ss << path[i];
+        if (i != 0)
+        {
+            ss << " -> ";
+        }
+    }
+    string str = ss.str();
+    cout << str;
 }
 
 template<class D, class K>
@@ -112,8 +166,8 @@ template<class D, class K>
 void Graph<D, K>::dfs_visit(const K &key, K u, K v) {
     Vertex<D, K> *uVert = get(key);
     uVert->color = GRAY;
-    uVert->discovery = this->dfsTime;
-    this->dfsTime++;
+    uVert->discovery = dfsTime;
+    dfsTime += 1;
     for (K adjKey: uVert->adjs) {
         Vertex<D, K> *vVert = get(adjKey);
         if (vVert->color == WHITE) {
@@ -136,14 +190,13 @@ void Graph<D, K>::dfs_visit(const K &key, K u, K v) {
                 }
             }
         }
-        uVert->finish = this->dfsTime;
-        this->dfsTime++;
+        uVert->finish = dfsTime;
+        dfsTime++;
     }
 }
 
 template<class D, class K>
 string Graph<D, K>::edge_class(K u, K v) {
-    this->dfsTime = 0;
     stringstream buffer;
     streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
     dfs(u, v);
