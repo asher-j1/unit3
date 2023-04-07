@@ -251,7 +251,7 @@ void Graph<D, K>::bfs_tree(K start) {
     bfs(start); // Rerun BFS based on the given source node
     int maxDistance = 0;
     for (Vertex<D, K> vertex: vertexes) {
-        if (maxDistance < vertex.distance) {
+        if (maxDistance < vertex.distance && vertex.distance != INT_MAX) {
             maxDistance = vertex.distance; // Get max distance
         }
     }
