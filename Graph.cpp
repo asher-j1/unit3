@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <unordered_map>
 #include <sstream>
+#include <climits>
 #include "graph.h"
 
 template<class D, class K>
