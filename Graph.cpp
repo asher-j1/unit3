@@ -123,8 +123,8 @@ template<class D, class K>
 void Graph<D, K>::dfs_visit(const K &key, K u, K v) {
     Vertex<D, K> *uVert = get(key);
     uVert->color = GRAY;
-    uVert->discovery = dfsTime;
-    dfsTime += 1;
+    uVert->discovery = this->dfsTime;
+    this->dfsTime++;
     for (K adjKey: uVert->adjs) {
         Vertex<D, K> *vVert = get(adjKey);
         if (vVert->color == WHITE) {
@@ -147,13 +147,14 @@ void Graph<D, K>::dfs_visit(const K &key, K u, K v) {
                 }
             }
         }
-        uVert->finish = dfsTime;
-        dfsTime++;
+        uVert->finish = this->dfsTime;
+        this->dfsTime++;
     }
 }
 
 template<class D, class K>
 string Graph<D, K>::edge_class(K u, K v) {
+    this->dfsTime = 0;
     stringstream buffer;
     streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
     dfs(u, v);
