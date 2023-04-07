@@ -45,7 +45,7 @@ void Graph<D, K>::bfs(K s) {
     for (Vertex<D, K> vertex: vertexes) {
         if (vertex.key != s) {
             vertex.color = WHITE;
-            vertex.distance = 2000000; // Functionally INF.
+            vertex.distance = INT_MAX; // Functionally INF.
         }
     }
     Vertex<D, K> *startVertex = get(s);
@@ -133,8 +133,6 @@ void Graph<D, K>::dfs(K u, K v) {
     // Reset
     for (int i = 0; i < vertexes.size(); i++) {
         vertexes[i].color = WHITE;
-        //vertexes[i].discovery = 0;
-        //vertexes[i].finish = 0;
     }
     for (int i = 0; i < vertexes.size(); i++) {
         if (vertexes[i].color == WHITE) {
@@ -155,19 +153,15 @@ void Graph<D, K>::dfs_visit(const K &key, K u, K v) {
             dfs_visit(vVert->key, u, v);
             if (uVert->key == u && vVert->key == v) {
                 cout << "tree edge";
-                //return;
             }
         } else {
             if (uVert->key == u && vVert->key == v) {
                 if (uVert->discovery > vVert->discovery && uVert->finish > vVert->finish) {
                     cout << "cross edge";
-                    //return;
                 } else if (uVert->discovery < vVert->discovery && uVert->finish > vVert->finish) {
                     cout << "forward edge";
-                    //return;
                 } else if (uVert->discovery > vVert->discovery && uVert->finish < vVert->finish) {
                     cout << "back edge";
-                    //return;
                 }
             }
         }
