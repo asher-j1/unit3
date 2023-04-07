@@ -1,10 +1,3 @@
-//
-//  test_graph_example.cpp
-//  CS 271 Graph Project: Example Test File
-//
-//  Created by Dr. Stacey Truex
-//
-
 #include <fstream>
 #include <sstream>
 #include "iostream"
@@ -50,7 +43,20 @@ void test_get(Graph<string, string> *G) {
         if (G->get("a") != nullptr) {
             cout << "Incorrect result getting non-existant vertex \"a\"" << endl;
         }
-    } catch (exception &e) {
+        if (G->get("T") == nullptr || G->get("T")->data != "T data") {
+            cout << "Incorrect result getting vertex \"T\"" << endl;
+        }
+        if (G->get("V") == nullptr || G->get("V")->data != "V data") {
+            cout << "Incorrect result getting vertex \"V\"" << endl;
+        }
+        if (G->get("W") == nullptr || G->get("W")->data != "W data") {
+            cout << "Incorrect result getting vertex \"W\"" << endl;
+        }
+        if (G->get("b") != nullptr) {
+            cout << "Incorrect result getting non-existant vertex \"b\"" << endl;
+        }
+    }
+    catch (exception &e) {
         cerr << "Error getting vertex from graph : " << e.what() << endl;
     }
 }
@@ -66,7 +72,26 @@ void test_reachable(Graph<string, string> *G) {
         if (G->reachable("S", "A")) {
             cout << "Incorrectly identified non-existant vetex \"A\" as reachable from \"S\"" << endl;
         }
-    } catch (exception &e) {
+        if (!G->reachable("Y", "Y")) {
+            cout << "Incorrectly identified vertex \"Y\" as unreachable from itself" << endl;
+        }
+        if (!G->reachable("T", "V")) {
+            cout << "Incorrectly identified adjacent vertex \"V\" as unreachable from \"T\"" << endl;
+        }
+
+        if (!G->reachable("U", "R")) {
+            cout << "Incorrectly identified non-adjacent vertex \"R\" as reachable from \"U\"" << endl;
+        }
+
+        if (G->reachable("V", "Z")) {
+            cout << "Incorrectly identified non-existant vertex \"Z\" as reachable from \"V\"" << endl;
+        }
+
+        if (G->reachable("R", "O")) {
+            cout << "Incorrectly identified non-existant vertex \"O\" as reachable from \"R\"" << endl;
+        }
+    }
+    catch (exception &e) {
         cerr << "Error testing reachable : " << e.what() << endl;
     }
 }
@@ -83,7 +108,35 @@ void test_bfs(Graph<string, string> *G) {
                      << " from source vertex \"t\"" << endl;
             }
         }
-    } catch (exception &e) {
+
+        G->bfs("S");
+        string vertices2[3] = {"R", "V", "S"};
+        int distances2[3] = {1, 2, 0};
+
+        for (int i = 0; i < 3; i++) {
+            if (G->get(vertices2[i]) == nullptr || G->get(vertices2[i])->distance != distances2[i]) {
+                cout << "Incorrect bfs result. Vertex " << vertices2[i] << " should have distance " << distances2[i]
+                     << " from source vertex \"S\"" << " but got " << G->get(vertices2[i])->distance << " instead"
+                     << endl;
+            }
+        }
+        
+        G->bfs("U");
+        string vertices3[4] = {"Y", "W", "X", "U"};
+        int distances3[4] = {1, 2, 3, 0};
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (G->get(vertices3[i]) == nullptr || G->get(vertices3[i])->distance != distances3[i])
+            {
+                cout << "Incorrect bfs result. Vertex " << vertices3[i] << " should have distance " << distances3[i]
+                     << " from source vertex \"U\"" << endl;
+            }
+        }
+
+
+    }
+    catch (exception &e) {
         cerr << "Error testing bfs : " << e.what() << endl;
     }
 }
@@ -98,7 +151,8 @@ void test_print_path(Graph<string, string> *G) {
             cout << "Incorrect path from vertex \"T\" to vertex \"V\". Expected: T -> S -> R -> V but got : "
                  << buffer.str() << endl;
         }
-    } catch (exception &e) {
+    }
+    catch (exception &e) {
         cerr << "Error testing print path : " << e.what() << endl;
     }
 
@@ -111,7 +165,58 @@ void test_print_path(Graph<string, string> *G) {
             cout << "Incorrect path from vertex \"T\" to vertex \"W\". Expected: T -> W but got : "
                  << buffer.str() << endl;
         }
-    } catch (exception &e) {
+    }
+    catch (exception &e) {
+        cerr << "Error testing print path : " << e.what() << endl;
+    }
+
+    try {
+        stringstream buffer;
+        streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
+        G->print_path("T", "X");
+        cout.rdbuf(prevbuf);
+        if (buffer.str() != "T -> W -> X") {
+            cout << "Incorrect path from vertex \"T\" to vertex \"X\". Expected: T -> W -> X but got : "
+                 << buffer.str() << endl;
+        }
+    }
+    catch (exception &e) {
+        cerr << "Error testing print path : " << e.what() << endl;
+    }
+    
+    try
+    {
+        stringstream buffer;
+        streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
+        G->print_path("Y", "U");
+        cout.rdbuf(prevbuf);
+        if (buffer.str() != "Y -> W -> X -> U")
+        {
+            cout << "Incorrect path from vertex \"Y\" to vertex \"U\". Expected: Y -> W -> X -> U but got : "
+                 << buffer.str() << endl;
+        }
+    }
+
+    catch (exception &e)
+    {
+        cerr << "Error testing print path : " << e.what() << endl;
+    }
+
+    try
+    {
+        stringstream buffer;
+        streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
+        G->print_path("W", "Y");
+        cout.rdbuf(prevbuf);
+        if (buffer.str() != "W -> X -> U -> Y")
+        {
+            cout << "Incorrect path from vertex \"W\" to vertex \"Y\". Expected: W -> X -> U -> Y but got : "
+                 << buffer.str() << endl;
+        }
+    }
+
+    catch (exception &e)
+    {
         cerr << "Error testing print path : " << e.what() << endl;
     }
 }
@@ -136,27 +241,58 @@ void test_edge_class(Graph<string, string> *G) {
         }
         e_class = G->edge_class("T", "S"); // cross edge
         if (e_class != "cross edge") {
-            cout << "Misidentified cross edge (\"T\", \"S\") as : " << e_class << endl;
+            cout << "Misidentified forward edge (\"T\", \"S\") as : " << e_class << endl;
         }
-    } catch (exception &e) {
+    }
+    catch (exception &e) {
         cerr << "Error testing edge class : " << e.what() << endl;
     }
-
 }
 
 void test_bfs_tree(Graph<string, string> *G) {
     try {
+        //test cases
+        Graph<string, int> g;
+        g.addVertex(1, "A");
+        g.addVertex(2, "B");
+        g.addVertex(3, "C");
+        g.addVertex(4, "D");
+        g.addEdge(1, 2);
+        g.addEdge(1, 3);
+        g.addEdge(2, 4);
+        g.addEdge(3, 4);
+        g.bfs_tree(1);
+        
+       Graph<string, int> g;
+g.addVertex(1, "A");
+g.addVertex(2, "B");
+g.addVertex(3, "C");
+g.addVertex(4, "D");
+g.bfs_tree(1);
+        
+Graph<string, int> g;
+g.addVertex(1, "A");
+g.addVertex(2, "B");
+g.addVertex(3, "C");
+g.addVertex(4, "D");
+g.addEdge(1, 2);
+g.addEdge(2, 3);
+g.addEdge(3, 1);
+g.addEdge(4, 2);
+g.bfs_tree(1);
+
         stringstream buffer;
         streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
         G->bfs_tree("T");
         cout.rdbuf(prevbuf);
         if (buffer.str() != "T\nS U W\nR Y X\nV") {
-            cout << "Incorrect bfs tree. Expected : \nT\nS U W\nR Y X\nV \nbut got :\n" << buffer.str() << endl;
+            cout << "Incorrect bfs tree. Expected : \nT\nS U W\nR Y X\nV \nbut got :\n"
+                 << buffer.str() << endl;
         }
-    } catch (exception &e) {
+    }
+    catch (exception &e) {
         cerr << "Error testing bfs tree : " << e.what() << endl;
     }
-
 }
 
 int main() {
@@ -181,4 +317,4 @@ int main() {
     delete G;
 
     return 0;
-}
+} 

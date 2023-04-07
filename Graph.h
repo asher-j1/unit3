@@ -3,11 +3,12 @@
 
 #include <vector>
 #include <sstream>
+#include <map>
 
 using namespace std;
 
-enum Color {
-    WHITE, BLACK, GRAY
+enum Color { // Could have used a boolean for this instead, but I wanted an enum
+    WHITE = 0, GRAY = 1, BLACK = 2
 };
 
 template<class D, class K>
@@ -16,7 +17,8 @@ public:
     K key;
     D data;
     int distance = 0;
-    K *predecessor = nullptr;
+    int discovery = 0;
+    int finish = 0;
     Color color = WHITE;
     vector<K> adjs;
 
@@ -30,10 +32,20 @@ Vertex<D, K>::Vertex(K key, D data, vector<K> edges) {
     adjs = edges;
 }
 
-template<class D, class K> // Data = Vertex Data, K = Vertex Key
+template<class D, class K> // D = Vertex Data, K = Vertex Key
 class Graph {
 public:
     vector<Vertex<D, K>> vertexes = {};
+    map<K, K> preds;
+    int dfsTime = 0;
+
+    void setPredecessor(K k, K pred) {
+        preds[k] = pred;
+    }
+
+    K getPredecessor(K k) {
+        return preds[k];
+    }
 
     Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges);
 
@@ -48,6 +60,10 @@ public:
     string edge_class(K u, K v);
 
     void bfs_tree(K start);
+
+    void dfs(K u, K v);
+
+    void dfs_visit(const K& key, K u, K v);
 };
 
 
