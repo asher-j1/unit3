@@ -31,8 +31,8 @@ Vertex<D, K> *Graph<D, K>::get(K key) {
 
 /**
  * From a given start key is the goal key reachable
- * Pre: In normal operation, both the start and end vertex should exist
- * Post: ??
+ * Pre: In normal operation, both the start and end vertex should exist as well as predecessor data
+ * Post: Nothing changes in the graph
  * @param start Starting point
  * @param end End point
  * @return True if possible, False if not
@@ -95,7 +95,7 @@ void Graph<D, K>::bfs(K s) {
 /**
  * Prints the path of the starting vertex (u) to the end vertex (v)
  * Pre: That both vertexes exist in the graph
- * Post: The output?
+ * Post: BFS is run on the graph, but this should be of no consequence in this case
  * @param u Start Vertex Key
  * @param v End Vertex Key
  */
@@ -212,7 +212,7 @@ void Graph<D, K>::dfs_visit(const K &key, K u, K v) {
                 }
             }
         }
-        uVert->finish = dfsTime; // Update finish and increment dfs time
+        uVert->finish = dfsTime; // Update finishcfg and increment dfs time
         dfsTime++;
     }
 }
