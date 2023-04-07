@@ -109,7 +109,6 @@ void test_bfs(Graph<string, string> *G) {
             }
         }
 
-        // Test case
         G->bfs("S");
         string vertices2[3] = {"R", "V", "S"};
         int distances2[3] = {1, 2, 0};
@@ -119,6 +118,19 @@ void test_bfs(Graph<string, string> *G) {
                 cout << "Incorrect bfs result. Vertex " << vertices2[i] << " should have distance " << distances2[i]
                      << " from source vertex \"S\"" << " but got " << G->get(vertices2[i])->distance << " instead"
                      << endl;
+            }
+        }
+        
+        G->bfs("U");
+        string vertices3[4] = {"Y", "W", "X", "U"};
+        int distances3[4] = {1, 2, 3, 0};
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (G->get(vertices3[i]) == nullptr || G->get(vertices3[i])->distance != distances3[i])
+            {
+                cout << "Incorrect bfs result. Vertex " << vertices3[i] << " should have distance " << distances3[i]
+                     << " from source vertex \"U\"" << endl;
             }
         }
 
@@ -169,6 +181,42 @@ void test_print_path(Graph<string, string> *G) {
         }
     }
     catch (exception &e) {
+        cerr << "Error testing print path : " << e.what() << endl;
+    }
+    
+    try
+    {
+        stringstream buffer;
+        streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
+        G->print_path("Y", "U");
+        cout.rdbuf(prevbuf);
+        if (buffer.str() != "Y -> W -> X -> U")
+        {
+            cout << "Incorrect path from vertex \"Y\" to vertex \"U\". Expected: Y -> W -> X -> U but got : "
+                 << buffer.str() << endl;
+        }
+    }
+
+    catch (exception &e)
+    {
+        cerr << "Error testing print path : " << e.what() << endl;
+    }
+
+    try
+    {
+        stringstream buffer;
+        streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
+        G->print_path("W", "Y");
+        cout.rdbuf(prevbuf);
+        if (buffer.str() != "W -> X -> U -> Y")
+        {
+            cout << "Incorrect path from vertex \"W\" to vertex \"Y\". Expected: W -> X -> U -> Y but got : "
+                 << buffer.str() << endl;
+        }
+    }
+
+    catch (exception &e)
+    {
         cerr << "Error testing print path : " << e.what() << endl;
     }
 }
