@@ -319,9 +319,9 @@ void test_bfs_tree(Graph<string, string> *G)
         streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
         G->bfs_tree("S");
         cout.rdbuf(prevbuf);
-        if (buffer.str() != "S\nR \nV")
+        if (buffer.str() != "S\nR\nV")
         {
-            cout << "Incorrect bfs tree. Expected : S\nR \nV \nbut got : \n"
+            cout << "Incorrect bfs tree. Expected : \nS\nR \nV \nbut got : \n"
                  << buffer.str() << endl;
         }
     }
