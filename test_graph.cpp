@@ -329,6 +329,23 @@ void test_bfs_tree(Graph<string, string> *G)
     {
         cerr << "Error testing bfs tree : " << e.what() << endl;
     } 
+    
+    try
+    {
+        stringstream buffer;
+        streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
+        G->bfs_tree("U");
+        cout.rdbuf(prevbuf);
+        if (buffer.str() != "U\nY\nW\nX")
+        {
+            cout << "Incorrect bfs tree. Expected : \nU\nY \nW \nX \nbut got : \n"
+                 << buffer.str() << endl;
+        }
+    }
+    catch (exception &e)
+    {
+        cerr << "Error testing bfs tree : " << e.what() << endl;
+    } 
 }
 
 int main()
