@@ -4,20 +4,9 @@
 
 template<class D, class K>
 Graph<D, K>::Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges) {
-
     for (int i = 0; i < keys.size(); i++) {
         vertexes.push_back(Vertex<D, K>(keys[i], data[i], edges[i]));
     }
-
-//    // Add edges
-//    for (int i = 0; i < keys.size(); i++) {
-//        Vertex<D, K>* uVertex = get(keys[i]);
-//        vector<K> adjKeys = edges[i];
-//        for (K adjKey : adjKeys) {
-//            Vertex<D, K>* vVertex = get(adjKey);
-//            uVertex->adjs.push_back(adjKey);
-//        }
-//    }
 }
 
 
@@ -123,8 +112,8 @@ template<class D, class K>
 void Graph<D, K>::dfs_visit(const K &key, K u, K v) {
     Vertex<D, K> *uVert = get(key);
     uVert->color = GRAY;
-    uVert->discovery = dfsTime;
-    dfsTime += 1;
+    uVert->discovery = this->dfsTime;
+    this->dfsTime++;
     for (K adjKey: uVert->adjs) {
         Vertex<D, K> *vVert = get(adjKey);
         if (vVert->color == WHITE) {
@@ -147,13 +136,14 @@ void Graph<D, K>::dfs_visit(const K &key, K u, K v) {
                 }
             }
         }
-        uVert->finish = dfsTime;
-        dfsTime++;
+        uVert->finish = this->dfsTime;
+        this->dfsTime++;
     }
 }
 
 template<class D, class K>
 string Graph<D, K>::edge_class(K u, K v) {
+    this->dfsTime = 0;
     stringstream buffer;
     streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
     dfs(u, v);
