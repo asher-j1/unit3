@@ -189,6 +189,7 @@ void Graph<D, K>::dfs(K u, K v) {
  */
 template<class D, class K>
 void Graph<D, K>::dfs_visit(const K &key, K u, K v) {
+    // Start by setting u as discovered and its discovery time
     Vertex<D, K> *uVert = get(key);
     uVert->color = GRAY;
     uVert->discovery = dfsTime;
@@ -197,12 +198,12 @@ void Graph<D, K>::dfs_visit(const K &key, K u, K v) {
         Vertex<D, K> *vVert = get(adjKey);
         if (vVert->color == WHITE) {
             dfs_visit(vVert->key, u, v);
-            if (uVert->key == u && vVert->key == v) {
+            if (uVert->key == u && vVert->key == v) { // If we are checking the start and end vertex of the edge we want, then we can say its a tree edge, otherwise continue normally
                 cout << "tree edge";
             }
         } else {
-            if (uVert->key == u && vVert->key == v) {
-                if (uVert->discovery > vVert->discovery && uVert->finish > vVert->finish) {
+            if (uVert->key == u && vVert->key == v) { // Determines the edge_class if we are checking the right start and end
+                if (uVert->discovery > vVert->discovery && uVert->finish > vVert->finish) { // If the start and end vertex times check out, then print the right edge
                     cout << "cross edge";
                 } else if (uVert->discovery < vVert->discovery && uVert->finish > vVert->finish) {
                     cout << "forward edge";
@@ -211,7 +212,7 @@ void Graph<D, K>::dfs_visit(const K &key, K u, K v) {
                 }
             }
         }
-        uVert->finish = dfsTime;
+        uVert->finish = dfsTime; // Update finish and increment dfs time
         dfsTime++;
     }
 }
@@ -227,12 +228,12 @@ void Graph<D, K>::dfs_visit(const K &key, K u, K v) {
  */
 template<class D, class K>
 string Graph<D, K>::edge_class(K u, K v) {
-    dfsTime = 0;
+    dfsTime = 0; // Very important: Resets DFS time variable
     stringstream buffer;
-    streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
-    dfs(u, v);
+    streambuf *prevbuf = cout.rdbuf(buffer.rdbuf()); // Just like how the test_graph_example checks the buffer, this does the same to grab the edge class
+    dfs(u, v); // Runs the DFS, the most important part
     cout.rdbuf(prevbuf);
-    if (buffer.str().empty()) {
+    if (buffer.str().empty()) { // If we didn't get an edge from the dfs sorting then its no edge.
         return "no edge";
     }
     return buffer.str();
@@ -241,11 +242,12 @@ string Graph<D, K>::edge_class(K u, K v) {
 /**
  * Prints out a tree representing the BFS'd grpah
  * Pre: That start corresponds to a valid vertex
- * Post: A BFS is run on the graph (TODO)
+ * Post: A BFS is run on the graph
  * @param start The key to the source vertex
  */
 template<class D, class K>
-void Graph<D, K>::bfs_tree(K start) { // TODO: This doesn't actually care about the 'start' argument, probably need to re-run BFS based on given key or other test cases will probably fuck up
+void Graph<D, K>::bfs_tree(K start) {
+    bfs(start); // Rerun BFS based on the given source node
     int maxDistance = 0;
     for (Vertex<D, K> vertex: vertexes) {
         if (maxDistance < vertex.distance) {
@@ -256,16 +258,16 @@ void Graph<D, K>::bfs_tree(K start) { // TODO: This doesn't actually care about 
     for (int i = 0; i <= maxDistance; i++) {
         for (Vertex<D, K> vertex: vertexes) {
             if (vertex.distance == i) {
-                ss << vertex.key << " ";
+                ss << vertex.key << " "; // For each vertex <= i, print out its key
             }
         }
-        if (i < maxDistance) {
+        if (i < maxDistance) { // When all are done for i, add new line and repeat
             ss.seekp(-1, stringstream::cur);
             ss << "\n";
         }
     }
     string str = ss.str();
-    str.erase(str.length() - 1, 1);
+    str.erase(str.length() - 1, 1); // Get rid of the last character because of potential space or extra new line, ensures it matches with test cases
     cout << str;
 }
 

@@ -7,7 +7,7 @@
 
 using namespace std;
 
-enum Color {
+enum Color { // Could have used a boolean for this instead, but I wanted an enum
     WHITE = 0, GRAY = 1, BLACK = 2
 };
 
@@ -32,7 +32,7 @@ Vertex<D, K>::Vertex(K key, D data, vector<K> edges) {
     adjs = edges;
 }
 
-template<class D, class K> // Data = Vertex Data, K = Vertex Key
+template<class D, class K> // D = Vertex Data, K = Vertex Key
 class Graph {
 public:
     vector<Vertex<D, K>> vertexes = {};
