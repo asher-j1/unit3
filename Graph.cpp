@@ -3,11 +3,11 @@
 
 template<class D, class K>
 Graph<D, K>::Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges) {
-    
+    /*
      vector<string> keys ={"R", "V", "S", "T", "U", "Y", "W", "X"}; // 3
      vector<int> data ={1, 2, 3, 5, 4, 6, 7, 8};
      vector<vector<string>> edges ={{"V"},{"S"},{"R"},{"S","U","W"},{"Y"},{"W"},{"X"},{"U"}} // suw
-     
+    */ 
     for (int i = 0; i < keys.size(); i++) {
         vertexes.push_back(Vertex<D,K>(keys[i], data[i]));
     }
@@ -22,8 +22,6 @@ Graph<D, K>::Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges) {
         }
     }
 }
-
-
 
 
 template<class D, class K>
@@ -89,15 +87,17 @@ void Graph<D, K>::bfs(K s) {
 }
 
 template<class D, class K>
-void Graph<D, K>::print_path(K u, K v) { // Dijkstra? 24.3 658
-    if v==u:
-        print("no path exists")
-    elif v.predecessor == NULL:
-        print("No path exists")
-    else:
-        print_path(u, v)
-        print(v)
+void Graph<D, K>::print_path(K u, K v) {
+    if (v == u) {
+        cout << u;
+    } else if (v->predecessor == NULL) {
+        cout << "No path exists";
+    } else {
+        print_path(u, v->predecessor);
+        cout << " -> " << v;
+    }
 }
+
 
 template<class D, class K>
 string Graph<D, K>::edge_class(K u, K v) {
