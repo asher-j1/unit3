@@ -10,18 +10,7 @@ Graph<D, K>::Graph(vector<K> keys, vector<D> data, vector<vector<K>> edges) {
     for (int i = 0; i < keys.size(); i++) {
         vertexes.push_back(Vertex<D, K>(keys[i], data[i], edges[i]));
     }
-
-//    // Add edges
-//    for (int i = 0; i < keys.size(); i++) {
-//        Vertex<D, K>* uVertex = get(keys[i]);
-//        vector<K> adjKeys = edges[i];
-//        for (K adjKey : adjKeys) {
-//            Vertex<D, K>* vVertex = get(adjKey);
-//            uVertex->adjs.push_back(adjKey);
-//        }
-//    }
 }
-
 
 template<class D, class K>
 Vertex<D, K> *Graph<D, K>::get(K key) {
@@ -86,12 +75,11 @@ void Graph<D, K>::bfs(K s) {
 
 template<class D, class K>
 void Graph<D, K>::print_path(K u, K v) {
-    
+
     unordered_map<K, int> dist;
     unordered_map<K, K> parent;
 
-    for (auto &vtx : vertexes)
-    {
+    for (auto &vtx: vertexes) {
         dist[vtx.key] = INT_MAX;
         parent[vtx.key] = "";
     }
@@ -102,22 +90,18 @@ void Graph<D, K>::print_path(K u, K v) {
     queue<K> q;
     q.push(u);
 
-    while (!q.empty())
-    {
+    while (!q.empty()) {
         K curr = q.front();
         q.pop();
 
         // stop if we reach the destination vertex
-        if (curr == v)
-        {
+        if (curr == v) {
             break;
         }
 
         // traverse edges incident to current vertex
-        for (K adj : get(curr)->adjs)
-        {
-            if (dist[adj] == INT_MAX)
-            {
+        for (K adj: get(curr)->adjs) {
+            if (dist[adj] == INT_MAX) {
                 dist[adj] = dist[curr] + 1;
                 parent[adj] = curr;
                 q.push(adj);
@@ -127,19 +111,16 @@ void Graph<D, K>::print_path(K u, K v) {
 
     vector<K> path;
     K curr = v;
-    while (curr != u)
-    {
+    while (curr != u) {
         path.push_back(curr);
         curr = parent[curr];
     }
     path.push_back(u);
 
     stringstream ss;
-    for (int i = path.size() - 1; i >= 0; i--)
-    {
+    for (int i = path.size() - 1; i >= 0; i--) {
         ss << path[i];
-        if (i != 0)
-        {
+        if (i != 0) {
             ss << " -> ";
         }
     }
@@ -197,6 +178,7 @@ void Graph<D, K>::dfs_visit(const K &key, K u, K v) {
 
 template<class D, class K>
 string Graph<D, K>::edge_class(K u, K v) {
+    dfsTime = 0;
     stringstream buffer;
     streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
     dfs(u, v);

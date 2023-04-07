@@ -19,7 +19,6 @@ public:
     int distance = 0;
     int discovery = 0;
     int finish = 0;
-    //K *predecessor = nullptr;
     Color color = WHITE;
     vector<K> adjs;
 
