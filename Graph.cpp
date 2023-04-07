@@ -60,11 +60,11 @@ bool Graph<D, K>::reachable(K start, K end) { // Literally just a skimmed down v
  */
 template<class D, class K>
 void Graph<D, K>::bfs(K s) {
-    for (Vertex<D, K> vertex: vertexes) { // Reset everything apart from the starting vertex
-        if (vertex.key != s) {
-            vertex.color = WHITE;
-            vertex.distance = INT_MAX; // Functionally INF.
-        }
+
+    // Reset everything apart from the starting vertex
+    for (int i = 0; i < vertexes.size(); i++) {
+        vertexes[i].color = WHITE;
+        vertexes[i].distance = INT_MAX; // Functionally INF.
     }
     Vertex<D, K> *startVertex = get(s);
     if (startVertex == nullptr) { // Call it quits if start is null
