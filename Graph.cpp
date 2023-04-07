@@ -105,85 +105,62 @@ void Graph<D, K>::print_path(K u, K v) {
 }
 
 template<class D, class K>
-void Graph<D, K>::dfs_visit(Vertex<D, K> vert, K u, K v) {
-    this->dfsTime += 1;
-    vert.discovery = dfsTime;
-    vert.color = GRAY;
-    for (K key: vert.adjs) {
-        Vertex<D, K> *vItem = get(key);
-        if (vItem->color == WHITE) {
-            setPredecessor(vItem->key, vert.key);
-            if (u == vert.key && v == vItem->key) {
+void Graph<D, K>::dfs(K u, K v) {
+    // Reset
+    for (int i = 0; i < vertexes.size(); i++) {
+        vertexes[i].color = WHITE;
+        //vertexes[i].discovery = 0;
+        //vertexes[i].finish = 0;
+    }
+    for (int i = 0; i < vertexes.size(); i++) {
+        if (vertexes[i].color == WHITE) {
+            dfs_visit(vertexes[i].key, u, v);
+        }
+    }
+}
+
+template<class D, class K>
+void Graph<D, K>::dfs_visit(const K &key, K u, K v) {
+    Vertex<D, K> *uVert = get(key);
+    uVert->color = GRAY;
+    uVert->discovery = dfsTime;
+    dfsTime += 1;
+    for (K adjKey: uVert->adjs) {
+        Vertex<D, K> *vVert = get(adjKey);
+        if (vVert->color == WHITE) {
+            dfs_visit(vVert->key, u, v);
+            if (uVert->key == u && vVert->key == v) {
                 cout << "tree edge";
+                //return;
             }
-            dfs_visit(*get(key), u, v);
         } else {
-            if (vert.discovery > vItem->discovery && vert.finish < vItem->finish) {
-                if (u == vert.key && v == vItem->key) {
-                    cout << "back edge" << endl;
-                    cout << "back edge";
-                }
-            } else if (vert.discovery < vItem->discovery && vert.finish > vItem->finish) {
-                if (u == vert.key && v == vItem->key) {
-                    cout << "for edge" << endl;
-                    cout << "forward edge";
-                }
-            } else if (vert.discovery > vItem->discovery && vert.finish > vItem->finish) {
-                if (u == vert.key && v == vItem->key) {
-                    cout << "cross edge" << endl;
+            if (uVert->key == u && vVert->key == v) {
+                if (uVert->discovery > vVert->discovery && uVert->finish > vVert->finish) {
                     cout << "cross edge";
+                    //return;
+                } else if (uVert->discovery < vVert->discovery && uVert->finish > vVert->finish) {
+                    cout << "forward edge";
+                    //return;
+                } else if (uVert->discovery > vVert->discovery && uVert->finish < vVert->finish) {
+                    cout << "back edge";
+                    //return;
                 }
             }
         }
+        uVert->finish = dfsTime;
+        dfsTime++;
     }
-    vert.color = BLACK;
-    dfsTime += 1;
-    vert.finish = dfsTime;
 }
 
 template<class D, class K>
 string Graph<D, K>::edge_class(K u, K v) {
-    return "NYI";
     stringstream buffer;
     streambuf *prevbuf = cout.rdbuf(buffer.rdbuf());
-//    Vertex<D, K>* uVertex = get(u);
-//    Vertex<D, K>* vVertex = get(v);
-//
-//    if (uVertex->color == WHITE) {
-//        // u is an unexplored vertex
-//        return "tree";
-//    } else if (vVertex->color == GRAY) {
-//        // v is a descendant of u in the BFS tree
-//        return "cross";
-//    } else {
-//        // v is either an ancestor or a non-descendant of u
-//        // (assuming the graph is undirected)
-//        if (uVertex->distance < vVertex->distance) {
-//            // v is an ancestor of u
-//            return "forward";
-//        } else {
-//            // v is a non-descendant of u
-//            return "back";
-//        }
-//    }
-    for (int i = 0; i < vertexes.size(); i++) {
-        vertexes[i].color = WHITE;
-    }
-    this->dfsTime = 0;
-    for (Vertex<D, K> vertex: vertexes) {
-        if (vertex.color == WHITE) {
-            dfs_visit(vertex, u, v);
-        }
-    }
-//    switch (get(v)->color) { // TODO Grab the edge the minute were checking the right start and end, 605
-//        case WHITE:
-//            return "tree edge";
-//        case GRAY:
-//            return "back edge";
-//        case BLACK:
-//            return "BLACK";
-//    }
+    dfs(u, v);
     cout.rdbuf(prevbuf);
+    if (buffer.str().empty()) {
+        return "no edge";
+    }
     return buffer.str();
 }
 

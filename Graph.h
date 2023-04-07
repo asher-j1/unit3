@@ -17,7 +17,8 @@ public:
     K key;
     D data;
     int distance = 0;
-    int discovery, finish = 0;
+    int discovery = 0;
+    int finish = 0;
     //K *predecessor = nullptr;
     Color color = WHITE;
     vector<K> adjs;
@@ -37,7 +38,7 @@ class Graph {
 public:
     vector<Vertex<D, K>> vertexes = {};
     map<K, K> preds;
-    int dfsTime;
+    int dfsTime = 0;
 
     void setPredecessor(K k, K pred) {
         preds[k] = pred;
@@ -61,7 +62,9 @@ public:
 
     void bfs_tree(K start);
 
-    void dfs_visit(Vertex<D, K> vert, K u, K v);
+    void dfs(K u, K v);
+
+    void dfs_visit(const K& key, K u, K v);
 };
 
 
